@@ -1,0 +1,325 @@
+:root {
+    --primary-color: #2A5D67;
+    --accent-color: #FFB740;
+    --text-dark: #2C3E50;
+    --background-gradient: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    --text-light: #ffffff;
+    --background-dark: #1a1a1a;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: var(--background-gradient);
+    min-height: 100vh;
+    margin: 0;
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+body.dark-theme {
+    --primary-color: #00000075;
+    --accent-color: #FFC107;
+    --text-dark: #ffffff;
+    --background-gradient: linear-gradient(135deg, #1a1a1a 0%, #333333 100%);
+    --text-light: #ffffff;
+}
+
+header {
+    background: var(--primary-color);
+    color: white;
+    padding: 2rem 1rem;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(201, 255, 5, 0.5);
+    position: relative;
+    z-index: 1;
+}
+
+/* Logo */
+header img.logo {
+    width: 50px;
+    height: auto;
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    z-index: 2;
+    filter: brightness(0) invert(1); /* Inizialmente bianco */
+    transition: filter 0.3s ease;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+}
+
+.prayer-card {
+    background: white;
+    border-radius: 15px;
+    padding: 1.5rem;
+    text-align: center;
+    position: relative;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+}
+
+.dark-theme .prayer-card {
+    background: #08040400;
+    color: var(--text-light);
+}
+
+.prayer-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0 20px 5px rgba(251, 255, 0, 0.7); /* Effetto glow */
+}
+
+.card-header {
+    border-bottom: 2px solid var(--accent-color);
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+}
+
+.prayer-name {
+    font-size: 1.4rem;
+    color: var(--primary-color);
+    margin: 0;
+    font-weight: 600;
+}
+
+.dark-theme .prayer-name {
+    color: var(--accent-color);
+}
+
+.prayer-time {
+    font-size: 2rem;
+    color: var(--text-dark);
+    margin: 1rem 0;
+    font-weight: 700;
+}
+
+.dark-theme .prayer-time {
+    color: var(--text-light);
+}
+
+.countdown {
+    background: rgba(0, 213, 255, 0.1);
+    padding: 0.8rem;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    color: var(--primary-color);
+}
+
+.dark-theme .countdown {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--accent-color);
+}
+
+.current-day {
+    font-size: 1rem;
+    color: var(--text-dark);
+    margin-top: 0.5rem;
+    font-weight: 500;
+}
+
+.dark-theme .current-day {
+    color: var(--text-light);
+}
+
+.prayer-icon {
+    font-size: 2.5rem;
+    color: var(--accent-color);
+    margin-bottom: 1rem;
+}
+
+footer {
+    background: var(--primary-color);
+    color: rgba(255, 255, 255, 0.527);
+    text-align: center;
+    padding: 1.5rem;
+    margin-top: 3rem;
+    position: relative;
+    z-index: 1;
+}
+
+.dark-theme footer {
+    background: #333333;
+}
+
+.scenary-switch {
+    position: absolute;
+    top: 1rem;
+    right: 4rem;
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: var(--accent-color);
+}
+
+/* Stile per il contenitore dell'icona del tema */
+.theme-icon-container {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--primary-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s ease, background 0.3s ease;
+}
+
+.theme-icon-container:hover {
+    transform: scale(1.1);
+    background: var(--accent-color);
+}
+
+.theme-icon-container i {
+    color: white;
+    font-size: 1.2rem;
+}
+
+/* Stile per il color picker circolare */
+.color-picker-container {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--primary-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s ease, background 0.3s ease;
+}
+
+.color-picker-container:hover {
+    transform: scale(1.1);
+    background: var(--accent-color);
+}
+
+.color-picker-container input[type="color"] {
+    opacity: 0; /* Nascondi l'input predefinito */
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    position: absolute; /* Posiziona sopra l'icona */
+    z-index: 2; /* Assicurati che sia sopra l'icona */
+}
+
+.color-picker-icon {
+    position: absolute;
+    z-index: 1; /* Posiziona sotto l'input */
+    font-size: 1.2rem;
+    color: white;
+    pointer-events: none; /* Permetti il clic sull'input */
+}
+
+/* Pulsante per salvare il colore */
+.save-color-button {
+    position: absolute;
+    top: 1rem;
+    right: 7rem; /* Spostato più a sinistra */
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease, background 0.3s ease;
+}
+
+.save-color-button:hover {
+    transform: scale(1.1);
+    background: var(--accent-color);
+}
+
+/* Pulsante per riprodurre il Corano */
+.quran-player {
+    position: fixed;
+    bottom: 2rem;
+    left: 2rem;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease, background 0.3s ease;
+    z-index: 1000;
+}
+
+.quran-player:hover {
+    transform: scale(1.1);
+    background: var(--accent-color);
+}
+
+/* Stile per la mappa */
+#qibla-map {
+    width: 100%;
+    height: 300px;
+    margin-top: 2rem;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 768px) {
+    .grid-container {
+        grid-template-columns: 1fr;
+        padding: 1rem;
+    }
+
+    .prayer-time {
+        font-size: 1.8rem;
+    }
+}
+
+/* Particles.js Container */
+#particles-js {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 0;
+}
+
+/* styles.css */
+.notification {
+position: fixed;
+bottom: 20px;
+right: 20px;
+background: rgb(0, 119, 255); /* Colore di sfondo blu */
+color: #fff;
+padding: 15px 25px;
+border-radius: 10px;
+box-shadow: 0 4px 15px rgb(0, 225, 255); /* Effetto glow */
+font-size: 1em;
+font-weight: 500;
+opacity: 0;
+transform: translateX(100%);
+transition: opacity 0.5s ease, transform 0.5s ease;
+z-index: 1000;
+}
+
+.notification.show {
+opacity: 1;
+transform: translateX(0);
+}
