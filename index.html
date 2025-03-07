@@ -312,16 +312,62 @@
             left: 0;
             z-index: 0;
         }
+
+        /* styles.css */
+.notification {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: rgb(0, 119, 255); /* Colore di sfondo blu */
+    color: #fff;
+    padding: 15px 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgb(0, 225, 255); /* Effetto glow */
+    font-size: 1em;
+    font-weight: 500;
+    opacity: 0;
+    transform: translateX(100%);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    z-index: 1000;
+}
+
+.notification.show {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* Animazione glow */
+@keyframes glow {
+    0% {
+        box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
+    }
+    50% {
+        box-shadow: 0 0 20px rgba(0, 123, 255, 0.8);
+    }
+    100% {
+        box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
+    }
+}
+
+.notification {
+    animation: glow 2s infinite;
+}
+
     </style>
 </head>
 <body>
+
+    <div id="notification" class="notification">
+        🎉 Benvenuto! Controlla gli orari del Ramadan.
+    </div>
+
     <!-- Particles.js Container -->
     <div id="particles-js"></div>
 
     <header>
         <!-- Logo -->
         <img src="jjj.png" alt="Logo" class="logo" />
-        <h1>🕋 Orari delle Preghiere</h1>
+        <h1>🕋 مواقيت الصلاة</h1>
         <p>Mariano Comense</p>
         <!-- Aggiungi lo switch qui -->
         <span class="scenary-switch" title="Cambia tema">
@@ -373,6 +419,25 @@
     <!-- Particles.js Library -->
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script>
+
+
+// script.js
+document.addEventListener('DOMContentLoaded', function () {
+    const notification = document.getElementById('notification');
+
+    // Mostra la notifica dopo 1 secondo
+    setTimeout(() => {
+        notification.classList.add('show');
+    }, 1000);
+
+    // Nascondi la notifica dopo 5 secondi
+    setTimeout(() => {
+        notification.classList.remove('show');
+    }, 5000);
+});
+
+
+
         // Riproduci l'audio di benvenuto automaticamente quando la pagina viene caricata
         document.addEventListener('DOMContentLoaded', () => {
             const audio = document.getElementById('background-audio');
@@ -707,6 +772,8 @@
 
         setInterval(updatePrayerTimes, 1000);
         updatePrayerTimes();
+
+
     </script>
 </body>
 </html>
