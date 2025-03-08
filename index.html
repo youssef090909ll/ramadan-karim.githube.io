@@ -8,14 +8,10 @@
     <link rel="icon" type="image/x-icon" href="jjj.png">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1665874120122365"
-     crossorigin="anonymous"></script>
     <style>
-        :root {
+    :root {
             --primary-color: #2A5D67;
             --accent-color: #FFB740;
             --text-dark: #2C3E50;
@@ -30,6 +26,7 @@
             min-height: 100vh;
             margin: 0;
             transition: background 0.3s ease, color 0.3s ease;
+            overflow: hidden;
         }
 
         body.dark-theme {
@@ -50,7 +47,6 @@
             z-index: 1;
         }
 
-        /* Logo */
         header img.logo {
             width: 50px;
             height: auto;
@@ -58,7 +54,7 @@
             top: 1rem;
             left: 1rem;
             z-index: 2;
-            filter: brightness(0) invert(1); /* Inizialmente bianco */
+            filter: brightness(0) invert(1);
             transition: filter 0.3s ease;
         }
 
@@ -81,6 +77,11 @@
             position: relative;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            cursor: grab;
+        }
+
+        .prayer-card:active {
+            cursor: grabbing;
         }
 
         .dark-theme .prayer-card {
@@ -90,7 +91,7 @@
 
         .prayer-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 0 20px 5px rgba(251, 255, 0, 0.7); /* Effetto glow */
+            box-shadow: 0 0 20px 5px rgba(251, 255, 0, 0.7);
         }
 
         .card-header {
@@ -174,7 +175,6 @@
             color: var(--accent-color);
         }
 
-        /* Stile per il contenitore dell'icona del tema */
         .theme-icon-container {
             width: 40px;
             height: 40px;
@@ -197,7 +197,6 @@
             font-size: 1.2rem;
         }
 
-        /* Stile per il color picker circolare */
         .color-picker-container {
             position: absolute;
             top: 1rem;
@@ -220,27 +219,26 @@
         }
 
         .color-picker-container input[type="color"] {
-            opacity: 0; /* Nascondi l'input predefinito */
+            opacity: 0;
             width: 100%;
             height: 100%;
             cursor: pointer;
-            position: absolute; /* Posiziona sopra l'icona */
-            z-index: 2; /* Assicurati che sia sopra l'icona */
+            position: absolute;
+            z-index: 2;
         }
 
         .color-picker-icon {
             position: absolute;
-            z-index: 1; /* Posiziona sotto l'input */
+            z-index: 1;
             font-size: 1.2rem;
             color: white;
-            pointer-events: none; /* Permetti il clic sull'input */
+            pointer-events: none;
         }
 
-        /* Pulsante per salvare il colore */
         .save-color-button {
             position: absolute;
             top: 1rem;
-            right: 7rem; /* Spostato più a sinistra */
+            right: 7rem;
             background: var(--primary-color);
             color: white;
             border: none;
@@ -261,7 +259,6 @@
             background: var(--accent-color);
         }
 
-        /* Pulsante per riprodurre il Corano */
         .quran-player {
             position: fixed;
             bottom: 2rem;
@@ -287,7 +284,6 @@
             background: var(--accent-color);
         }
 
-        /* Stile per la mappa */
         #qibla-map {
             width: 100%;
             height: 300px;
@@ -308,7 +304,6 @@
             }
         }
 
-        /* Particles.js Container */
         #particles-js {
             position: absolute;
             width: 100%;
@@ -318,50 +313,40 @@
             z-index: 0;
         }
 
-        /* styles.css */
-.notification {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background: rgb(0, 119, 255); /* Colore di sfondo blu */
-    color: #fff;
-    padding: 15px 25px;
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgb(0, 225, 255); /* Effetto glow */
-    font-size: 1em;
-    font-weight: 500;
-    opacity: 0;
-    transform: translateX(100%);
-    transition: opacity 0.5s ease, transform 0.5s ease;
-    z-index: 1000;
-}
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgb(0, 119, 255);
+            color: #fff;
+            padding: 15px 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgb(0, 225, 255);
+            font-size: 1em;
+            font-weight: 500;
+            opacity: 0;
+            transform: translateX(100%);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            z-index: 1000;
+        }
 
-.notification.show {
-    opacity: 1;
-    transform: translateX(0);
-}
+        .notification.show {
+            opacity: 1;
+            transform: translateX(0);
+        }
 
-/* Animazione glow */
-@keyframes glow {
-    0% {
-        box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
-    }
-    50% {
-        box-shadow: 0 0 20px rgba(0, 123, 255, 0.8);
-    }
-    100% {
-        box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
-    }
-}
+        @keyframes glow {
+            0% { box-shadow: 0 0 10px rgba(0, 123, 255, 0.5); }
+            50% { box-shadow: 0 0 20px rgba(0, 123, 255, 0.8); }
+            100% { box-shadow: 0 0 10px rgba(0, 123, 255, 0.5); }
+        }
 
-.notification {
-    animation: glow 2s infinite;
-}
-
+        .notification {
+            animation: glow 2s infinite;
+        }
     </style>
 </head>
 <body>
-
     <div id="notification" class="notification">
         🎉 Benvenuto! Nel Sito Di Youssef
     </div>
@@ -370,22 +355,18 @@
     <div id="particles-js"></div>
 
     <header>
-        <!-- Logo -->
         <img src="jjj.png" alt="Logo" class="logo" />
         <h1>🕋 مواقيت الصلاة</h1>
         <p>Mariano Comense</p>
-        <!-- Aggiungi lo switch qui -->
         <span class="scenary-switch" title="Cambia tema">
             <div class="theme-icon-container">
                 <i class="fas fa-moon"></i>
             </div>
         </span>
-        <!-- Color picker circolare con icona -->
         <div class="color-picker-container" title="Cambia colore">
             <input type="color" id="color-picker" value="#2A5D67" />
-            <i class="fas fa-palette color-picker-icon"></i> <!-- Icona aggiunta -->
+            <i class="fas fa-palette color-picker-icon"></i>
         </div>
-        <!-- Pulsante per salvare il colore -->
         <button class="save-color-button" id="save-color-button" title="Salva colore">
             <i class="fas fa-save"></i>
         </button>
@@ -405,7 +386,7 @@
 
     <footer>
         <p>© 2025 Orari Preghiere - Design by [Youssef]</p>
-        <p id="hijri-date"></p> <!-- Aggiunto qui per visualizzare la data Hijri -->
+        <p id="hijri-date"></p>
     </footer>
 
     <!-- Audio per il Corano -->
@@ -420,68 +401,23 @@
         Il tuo browser non supporta l'elemento audio.
     </audio>
 
+    <!-- Audio per l'Adhan -->
+    <audio id="adhan-audio">
+        <source src="adhan.mp3" type="audio/mpeg">
+        Il tuo browser non supporta l'elemento audio.
+    </audio>
+
     <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <!-- Particles.js Library -->
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-    <script src="orari.j"></script>
 
     <script>
-
-
-
-
-
-// ... (il tuo JavaScript esistente rimane invariato fino alla fine) ...
-
-        // Funzione per aggiornare la data Hijri
-        function updateHijriDate() {
-            const today = new Date();
-            const hijriDate = new HijriDate(today);
-            const hijriDateString = `${hijriDate.getDate()} ${hijriDate.getMonthName()} ${hijriDate.getFullYear()} AH`;
-            document.getElementById('hijri-date').textContent = `Data Hijri: ${hijriDateString}`;
-        }
-
-        // Aggiorna la data Hijri al caricamento della pagina
-        document.addEventListener('DOMContentLoaded', () => {
-            updateHijriDate();
-        });
-
-        // ... (il resto del tuo JavaScript esistente) ...
-
-
-
-
-// script.js
-document.addEventListener('DOMContentLoaded', function () {
-    const notification = document.getElementById('notification');
-
-    // Mostra la notifica dopo 1 secondo
-    setTimeout(() => {
-        notification.classList.add('show');
-    }, 1000);
-
-    // Nascondi la notifica dopo  secondi
-    setTimeout(() => {
-        notification.classList.remove('show');
-    }, 5000);
-});
-
-
-
-        // Riproduci l'audio di benvenuto automaticamente quando la pagina viene caricata
-        document.addEventListener('DOMContentLoaded', () => {
-            const audio = document.getElementById('background-audio');
-            audio.play().catch(error => {
-                console.error("Errore nella riproduzione dell'audio di benvenuto:", error);
-            });
-        });
-
-        // Configurazione iniziale di Particles.js
-        let particlesConfig = {
+        // Configurazione delle particelle
+        particlesJS("particles-js", {
             particles: {
                 number: {
-                    value: 50, // Riduci il numero di particelle per migliorare le prestazioni
+                    value: 80,
                     density: {
                         enable: true,
                         value_area: 800
@@ -511,7 +447,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     }
                 },
                 size: {
-                    value: 4, // Dimensione iniziale delle particelle
+                    value: 3,
                     random: true,
                     anim: {
                         enable: false,
@@ -547,7 +483,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 events: {
                     onhover: {
                         enable: true,
-                        mode: "grab" // Modalità "grab" per far seguire le particelle al mouse
+                        mode: "repulse"
                     },
                     onclick: {
                         enable: true,
@@ -557,16 +493,16 @@ document.addEventListener('DOMContentLoaded', function () {
                 },
                 modes: {
                     grab: {
-                        distance: 200, // Distanza di interazione
+                        distance: 400,
                         line_linked: {
-                            opacity: 1 // Opacità delle linee durante l'interazione
+                            opacity: 1
                         }
                     },
                     bubble: {
-                        distance: 200,
-                        size: 10,
+                        distance: 400,
+                        size: 40,
                         duration: 2,
-                        opacity: 0.8,
+                        opacity: 8,
                         speed: 3
                     },
                     repulse: {
@@ -582,103 +518,132 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             },
             retina_detect: true
-        };
-
-        // Inizializza Particles.js
-        particlesJS("particles-js", particlesConfig);
-
-        // Funzione per aggiornare il colore delle particelle
-        function updateParticlesColor(color) {
-            const pJS = window.pJSDom[0].pJS; // Ottieni l'istanza di Particles.js
-            pJS.particles.color.value = color; // Aggiorna il colore delle particelle
-            pJS.particles.line_linked.color = color; // Aggiorna il colore delle linee
-            pJS.fn.particlesRefresh(); // Forza il ridisegno delle particelle
-        }
-
-        // Listener per il color picker
-        const colorPicker = document.getElementById('color-picker');
-        const logo = document.querySelector('.logo');
-
-        colorPicker.addEventListener('input', (event) => {
-            const color = event.target.value;
-
-            // Aggiorna il colore principale
-            document.documentElement.style.setProperty('--primary-color', color);
-
-            // Cambia il colore del logo
-            const hexToRgb = (hex) => {
-                const r = parseInt(hex.slice(1, 3), 16);
-                const g = parseInt(hex.slice(3, 5), 16);
-                const b = parseInt(hex.slice(5, 7), 16);
-                return [r, g, b];
-            };
-
-            const [r, g, b] = hexToRgb(color);
-            const filter = `invert(1) sepia(1) saturate(10000%) hue-rotate(${r + g + b}deg)`;
-            logo.style.filter = filter;
-
-            // Aggiorna il colore delle particelle
-            updateParticlesColor(color);
         });
 
-        // Funzione per salvare il colore nel localStorage
-        function saveColor(color) {
-            localStorage.setItem('savedColor', color);
-            alert('Colore salvato con successo!');
+        // Funzione per cambiare il colore delle particelle
+        function changeParticlesColor(color) {
+            particlesJS.load('particles-js', {
+                particles: {
+                    color: {
+                        value: color
+                    },
+                    line_linked: {
+                        color: color
+                    }
+                }
+            });
         }
 
-        // Funzione per caricare il colore salvato
-        function loadSavedColor() {
-            const savedColor = localStorage.getItem('savedColor');
-            if (savedColor) {
-                document.documentElement.style.setProperty('--primary-color', savedColor);
-                colorPicker.value = savedColor;
-                updateParticlesColor(savedColor);
+        // Funzione per ottenere gli orari delle preghiere dall'API Aladhan
+        async function fetchPrayerTimes() {
+            const latitude = 45.6975; // Latitudine di Mariano Comense
+            const longitude = 9.1833; // Longitudine di Mariano Comense
+            const method = 2; // Metodo di calcolo
+            const url = `https://api.aladhan.com/v1/timings?latitude=${latitude}&longitude=${longitude}&method=${method}`;
+
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                console.log("Risposta API:", data); // Debug: verifica la risposta API
+
+                if (!data || !data.data || !data.data.timings) {
+                    console.error("Formato della risposta API non valido");
+                    return [];
+                }
+
+                const timings = data.data.timings;
+
+                // Calcola IMSAK (10 minuti prima di Fajr)
+                const fajrTime = timings.Fajr;
+                const fajrDateTime = new Date(`${new Date().toDateString()} ${fajrTime}`);
+                fajrDateTime.setMinutes(fajrDateTime.getMinutes() - 10); // Sottrai 10 minuti
+                const imsakTime = `${fajrDateTime.getHours().toString().padStart(2, '0')}:${fajrDateTime.getMinutes().toString().padStart(2, '0')}`;
+
+                // Mappa i tempi delle preghiere nel formato desiderato
+                const prayerTimes = [
+                    { name: 'Imsak', time: imsakTime, icon: 'fa-cloud-moon' },
+                    { name: 'Fajr', time: timings.Fajr, icon: 'fa-moon' },
+                    { name: 'Dhuhr', time: timings.Dhuhr, icon: 'fa-sun' },
+                    { name: 'Asr', time: timings.Asr, icon: 'fa-sun-cloud' },
+                    { name: 'Maghrib', time: timings.Maghrib, icon: 'fa-moon-star' },
+                    { name: 'Isha', time: timings.Isha, icon: 'fa-stars' }
+                ];
+
+                console.log("Orari delle preghiere:", prayerTimes); // Debug: verifica gli orari estratti
+                return prayerTimes;
+            } catch (error) {
+                console.error("Errore nel recupero degli orari delle preghiere:", error);
+                return [];
             }
         }
 
-        // Listener per il pulsante di salvataggio
-        const saveColorButton = document.getElementById('save-color-button');
-        saveColorButton.addEventListener('click', () => {
-            const selectedColor = colorPicker.value;
-            saveColor(selectedColor);
-        });
+        // Funzione per aggiornare solo il countdown
+        function updateCountdown() {
+            const prayerCards = document.querySelectorAll('.prayer-card');
 
-        // Carica il colore salvato al caricamento della pagina
-        document.addEventListener('DOMContentLoaded', () => {
-            loadSavedColor();
-        });
+            prayerCards.forEach(card => {
+                const prayerName = card.querySelector('.prayer-name').textContent;
+                const prayerTime = card.querySelector('.prayer-time').textContent;
+                const countdownElement = card.querySelector('.countdown');
 
-        // Gestione della riproduzione del Corano
-        const quranPlayer = document.getElementById('quran-player');
-        const quranAudio = document.getElementById('quran-audio');
-        const playIcon = quranPlayer.querySelector('i');
+                const now = new Date();
+                const prayerDateTime = new Date(`${now.toDateString()} ${prayerTime}`);
+                let diff = (prayerDateTime - now) / 1000;
 
-        quranPlayer.addEventListener('click', () => {
-            if (quranAudio.paused) {
-                quranAudio.play();
-                playIcon.classList.remove('fa-play');
-                playIcon.classList.add('fa-pause');
-            } else {
-                quranAudio.pause();
-                playIcon.classList.remove('fa-pause');
-                playIcon.classList.add('fa-play');
+                if (diff < 0) diff += 86400; // Aggiungi 24 ore se il tempo è passato
+
+                const hours = Math.floor(diff / 3600);
+                const minutes = Math.floor((diff % 3600) / 60);
+                const seconds = Math.floor(diff % 60);
+
+                countdownElement.textContent = `${hours}h ${minutes}m ${seconds}s`;
+
+                // Se il countdown raggiunge lo zero, riproduci l'Adhan (solo per Fajr, Dhuhr, Asr, Maghrib, Isha)
+                if (hours === 0 && minutes === 0 && seconds === 0 && prayerName !== 'Imsak') {
+                    playAdhan();
+                }
+            });
+
+            // Richiama la funzione al prossimo frame
+            requestAnimationFrame(updateCountdown);
+        }
+
+        // Funzione per generare le caselle delle preghiere (solo una volta)
+        async function renderPrayerTimes() {
+            const container = document.getElementById('prayer-container');
+            container.innerHTML = '';
+
+            const prayerTimes = await fetchPrayerTimes();
+
+            if (prayerTimes.length === 0) {
+                container.innerHTML = '<p>Impossibile recuperare gli orari delle preghiere. Riprova più tardi.</p>';
+                return;
             }
-        });
 
-        const prayerTimes = [
-            { name: 'Sehar', time: '05:09', icon: 'fa-cloud-moon' },
-            { name: 'Dhuhr', time: '12:35', icon: 'fa-sun' },
-            { name: 'Asr', time: '15:39', icon: 'fa-sun-cloud' },
-            { name: 'Iftar', time: '18:16', icon: 'fa-moon-star' },
-            { name: 'Isha', time: '19:46', icon: 'fa-stars' },
-            { name: 'Fajr', time: '05:19', icon: 'fa-moon' }
+            prayerTimes.forEach(prayer => {
+                const card = document.createElement('div');
+                card.className = 'prayer-card';
 
-            
-            
-        ];
+                card.innerHTML = `
+                    <div class="card-header">
+                        <i class="fas ${prayer.icon} prayer-icon"></i>
+                        <h2 class="prayer-name">${prayer.name}</h2>
+                    </div>
+                    <div class="prayer-time">${prayer.time}</div>
+                    <div class="countdown">
+                        Calcolo in corso...
+                    </div>
+                    <div class="current-day">${getCurrentDay()}</div>
+                `;
 
-        // Funzione per ottenere il giorno corrente in formato leggibile
+                container.appendChild(card);
+            });
+
+            // Avvia l'aggiornamento del countdown
+            requestAnimationFrame(updateCountdown);
+        }
+
+        // Funzione per ottenere il giorno corrente
         function getCurrentDay() {
             const days = ["Domenica", "Lunedì", "Martedì", "Mercoledì", "Giovedì", "Venerdì", "Sabato"];
             const months = ["Gennaio", "Febbraio", "Marzo", "Aprile", "Maggio", "Giugno", "Luglio", "Agosto", "Settembre", "Ottobre", "Novembre", "Dicembre"];
@@ -692,10 +657,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // Funzione per riprodurre l'Adhan
         function playAdhan() {
-            const adhanAudio = new Audio('adhan.mp3'); // Assicurati che il file adhan.mp3 sia presente
-            adhanAudio.play().then(() => {
-                console.log("Adhan riprodotto con successo");
-            }).catch(error => {
+            const adhanAudio = document.getElementById('adhan-audio');
+            adhanAudio.play().catch(error => {
                 console.error("Errore nella riproduzione dell'Adhan:", error);
             });
         }
@@ -720,72 +683,8 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         }
 
-        // Funzione per aggiornare gli orari delle preghiere
-        function updatePrayerTimes() {
-            const container = document.getElementById('prayer-container');
-            container.innerHTML = '';
-
-            prayerTimes.forEach(prayer => {
-                const card = document.createElement('div');
-                card.className = 'prayer-card';
-
-                const now = new Date();
-                const prayerTime = new Date(`${now.toDateString()} ${prayer.time}`);
-                let diff = (prayerTime - now) / 1000;
-
-                if (diff < 0) diff += 86400; // Aggiungi 24 ore se il tempo è passato
-
-                const hours = Math.floor(diff / 3600);
-                const minutes = Math.floor((diff % 3600) / 60);
-                const seconds = Math.floor(diff % 60);
-
-                // Controlla se il countdown ha raggiunto lo zero
-                if (hours === 0 && minutes === 0 && seconds === 0) {
-                    playAdhan(); // Riproduci l'Adhan
-                    showNotification(`È ora di ${prayer.name}`, {
-                        body: `È il momento di ${prayer.name}. Preparati per la preghiera.`,
-                        icon: 'jjj.png' // Assicurati che il percorso dell'icona sia corretto
-                    });
-                }
-
-                card.innerHTML = `
-                    <div class="card-header">
-                        <i class="fas ${prayer.icon} prayer-icon"></i>
-                        <h2 class="prayer-name">${prayer.name}</h2>
-                    </div>
-                    <div class="prayer-time">${prayer.time}</div>
-                    <div class="countdown">
-                        ${hours}h ${minutes}m ${seconds}s
-                    </div>
-                    <div class="current-day">${getCurrentDay()}</div>
-                `;
-
-                container.appendChild(card);
-            });
-        }
-
-        // Richiedi il permesso per le notifiche al caricamento della pagina
-        document.addEventListener('DOMContentLoaded', () => {
-            requestNotificationPermission();
-        });
-
-        // Gestione del cambio tema
-        const scenarySwitch = document.querySelector('.scenary-switch');
-        scenarySwitch.addEventListener('click', () => {
-            document.body.classList.toggle('dark-theme');
-            const icon = scenarySwitch.querySelector('i');
-            if (document.body.classList.contains('dark-theme')) {
-                icon.classList.remove('fa-moon');
-                icon.classList.add('fa-sun');
-            } else {
-                icon.classList.remove('fa-sun');
-                icon.classList.add('fa-moon');
-            }
-        });
-
         // Inizializzazione della mappa della Qibla
         const map = L.map('qibla-map').setView([45.6975, 9.1833], 13); // Coordinate di Mariano Comense
-
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
@@ -804,10 +703,123 @@ document.addEventListener('DOMContentLoaded', function () {
             weight: 3
         }).addTo(map);
 
-        setInterval(updatePrayerTimes, 1000);
-        updatePrayerTimes();
+        // Esegui la funzione al caricamento della pagina
+        document.addEventListener('DOMContentLoaded', () => {
+            renderPrayerTimes();
+        });
 
+        // Gestione del cambio tema
+        const scenarySwitch = document.querySelector('.scenary-switch');
+        scenarySwitch.addEventListener('click', () => {
+            document.body.classList.toggle('dark-theme');
+            const icon = scenarySwitch.querySelector('i');
+            if (document.body.classList.contains('dark-theme')) {
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+            } else {
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+            }
+        });
 
+        // Gestione del color picker
+        const colorPicker = document.getElementById('color-picker');
+        const logo = document.querySelector('.logo');
+
+        colorPicker.addEventListener('input', (event) => {
+            const color = event.target.value;
+            document.documentElement.style.setProperty('--primary-color', color);
+
+            const hexToRgb = (hex) => {
+                const r = parseInt(hex.slice(1, 3), 16);
+                const g = parseInt(hex.slice(3, 5), 16);
+                const b = parseInt(hex.slice(5, 7), 16);
+                return [r, g, b];
+            };
+
+            const [r, g, b] = hexToRgb(color);
+            const filter = `invert(1) sepia(1) saturate(10000%) hue-rotate(${r + g + b}deg)`;
+            logo.style.filter = filter;
+
+            // Cambia il colore delle particelle
+            changeParticlesColor(color);
+        });
+
+        // Gestione del salvataggio del colore
+        const saveColorButton = document.getElementById('save-color-button');
+        saveColorButton.addEventListener('click', () => {
+            const selectedColor = colorPicker.value;
+            localStorage.setItem('savedColor', selectedColor);
+            alert('Colore salvato con successo!');
+        });
+
+        // Carica il colore salvato al caricamento della pagina
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedColor = localStorage.getItem('savedColor');
+            if (savedColor) {
+                document.documentElement.style.setProperty('--primary-color', savedColor);
+                colorPicker.value = savedColor;
+                changeParticlesColor(savedColor);
+            }
+        });
+
+        // Gestione della riproduzione del Corano
+        const quranPlayer = document.getElementById('quran-player');
+        const quranAudio = document.getElementById('quran-audio');
+        const playIcon = quranPlayer.querySelector('i');
+
+        quranPlayer.addEventListener('click', () => {
+            if (quranAudio.paused) {
+                quranAudio.play();
+                playIcon.classList.remove('fa-play');
+                playIcon.classList.add('fa-pause');
+            } else {
+                quranAudio.pause();
+                playIcon.classList.remove('fa-pause');
+                playIcon.classList.add('fa-play');
+            }
+        });
+
+        // Mostra la notifica di benvenuto
+        document.addEventListener('DOMContentLoaded', function () {
+            const notification = document.getElementById('notification');
+            setTimeout(() => {
+                notification.classList.add('show');
+            }, 1000);
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 5000);
+        });
+
+        // Funzione per trascinare gli elementi
+        function makeDraggable(element) {
+            let isDragging = false;
+            let offsetX, offsetY;
+
+            element.addEventListener('mousedown', (e) => {
+                isDragging = true;
+                offsetX = e.clientX - element.getBoundingClientRect().left;
+                offsetY = e.clientY - element.getBoundingClientRect().top;
+                element.style.cursor = 'grabbing';
+            });
+
+            document.addEventListener('mousemove', (e) => {
+                if (isDragging) {
+                    element.style.left = `${e.clientX - offsetX}px`;
+                    element.style.top = `${e.clientY - offsetY}px`;
+                }
+            });
+
+            document.addEventListener('mouseup', () => {
+                isDragging = false;
+                element.style.cursor = 'grab';
+            });
+        }
+
+        // Applica la funzione di trascinamento alle carte delle preghiere
+        document.querySelectorAll('.prayer-card').forEach(card => {
+            makeDraggable(card);
+        });
     </script>
 </body>
 </html>
