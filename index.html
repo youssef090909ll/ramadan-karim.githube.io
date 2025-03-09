@@ -751,7 +751,7 @@
             const latitude = 45.6975; // Latitudine di Mariano Comense
             const longitude = 9.1833; // Longitudine di Mariano Comense
             const method = 2; // Metodo di calcolo
-            const url = `https://api.aladhan.com/v1/timingsByCity?city=Casablanca&country=Morocco&method=4`;
+            const url = `https://api.aladhan.com/v1/timings?latitude=${latitude}&longitude=${longitude}&method=${method}`;
 
             try {
                 const response = await fetch(url);
