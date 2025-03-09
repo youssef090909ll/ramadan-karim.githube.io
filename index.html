@@ -11,9 +11,7 @@
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
-
-
-:root {
+        :root {
             --primary-color: #2A5D67;
             --accent-color: #FFB740;
             --text-dark: #2C3E50;
@@ -106,10 +104,9 @@
             }
         }
 
-        /* Stile per l'avviso di Lailat al Qadr */
         .lailat-al-qadr-notice {
             background: linear-gradient(135deg, #00000000, #00000000);
-            color: var(--lailat-text-color); /* Usa la variabile per il colore del testo */
+            color: var(--lailat-text-color);
             padding: 1.5rem;
             text-align: center;
             margin: 0;
@@ -126,7 +123,6 @@
             margin-right: 0.5rem;
         }
 
-        /* Animazione per far scorrere il testo */
         @keyframes scrollText {
             0% {
                 transform: translateX(100%);
@@ -139,7 +135,7 @@
         .lailat-al-qadr-notice span {
             display: inline-block;
             padding-left: 100%;
-            animation: scrollText 25s linear infinite; /* Velocità ridotta */
+            animation: scrollText 25s linear infinite;
         }
 
         .grid-container {
@@ -429,7 +425,6 @@
             animation: glow 2s infinite;
         }
 
-        /* Animazione flash per il footer */
         @keyframes flash {
             0%, 100% {
                 opacity: 1;
@@ -443,7 +438,6 @@
             animation: flash 1s infinite;
         }
 
-        /* Effetto Glitch */
         @keyframes glitch {
             0% {
                 transform: translate(0);
@@ -493,7 +487,6 @@
             animation: glitch 0.3s infinite;
         }
 
-        /* Effetto Glow per il logo */
         .logo {
             animation: glow-logo 2s infinite alternate;
         }
@@ -507,7 +500,6 @@
             }
         }
 
-        /* Effetto Glow per il titolo */
         .hero__title {
             animation: glow-title 2s infinite alternate;
         }
@@ -521,22 +513,18 @@
             }
         }
 
-        /* Effetto Glow per il pulsante di salvataggio */
         .fas.fa-save {
             animation: glow 2s infinite alternate;
         }
 
-        /* Effetto Glow per il contenitore dell'icona del tema */
         .theme-icon-container {
             animation: glow 2s infinite alternate;
         }
 
-        /* Effetto Glow per il color picker */
         #color-picker {
             animation: glow 2s infinite alternate;
         }
 
-        /* Definizione dell'animazione Glow */
         @keyframes glow {
             0% {
                 box-shadow: 0 0 5px rgba(16, 0, 247, 0.24);
@@ -545,10 +533,6 @@
                 box-shadow: 0 0 20px rgba(0, 0, 0, 0.418);
             }
         }
-
-
-
-        /* ... (stili CSS rimangono invariati) ... */
     </style>
 </head>
 <body>
@@ -580,7 +564,7 @@
     <!-- Avviso per Lailat al Qadr -->
     <div class="lailat-al-qadr-notice">
         <span>
-            <i class="fas fa-star"></i> Notte di Lailat al Qadr: Ricorda di dedicare questa notte alla preghiera e alla riflessione.
+            <i class="fas fa-star"></i> Notte di Lailat al Qadr: 27 MARZO .
         </span>
     </div>
 
@@ -790,6 +774,8 @@
         }
 
         // Funzione per aggiornare solo il countdown
+        let adhanPlayed = false;
+
         function updateCountdown() {
             const prayerCards = document.querySelectorAll('.prayer-card');
 
@@ -811,14 +797,31 @@
                 countdownElement.textContent = `${hours}h ${minutes}m ${seconds}s`;
 
                 // Controlla se il countdown è arrivato a zero
-                if (diff <= 0 && prayerName !== 'Imsak') {
+                if (diff <= 0 && prayerName !== 'Imsak' && !adhanPlayed) {
                     playAdhan();
+                    adhanPlayed = true; // Imposta il flag su true per evitare ripetizioni
                     // Resetta il countdown per evitare ripetizioni
                     countdownElement.textContent = "00h 00m 00s";
+                }
+
+                // Resetta il flag quando il countdown è positivo
+                if (diff > 0) {
+                    adhanPlayed = false;
                 }
             });
 
             requestAnimationFrame(updateCountdown);
+        }
+
+        // Funzione per riprodurre l'Adhan
+        function playAdhan() {
+            const adhanAudio = document.getElementById('adhan-audio');
+            console.log("Riproduzione dell'Adhan...");
+            adhanAudio.play().then(() => {
+                console.log("Adhan riprodotto con successo.");
+            }).catch(error => {
+                console.error("Errore nella riproduzione dell'Adhan:", error);
+            });
         }
 
         // Funzione per generare le caselle delle preghiere
@@ -865,17 +868,6 @@
             const monthName = months[now.getMonth()];
             const year = now.getFullYear();
             return `${dayName}, ${dayNumber} ${monthName} ${year}`;
-        }
-
-        // Funzione per riprodurre l'Adhan
-        function playAdhan() {
-            const adhanAudio = document.getElementById('adhan-audio');
-            console.log("Riproduzione dell'Adhan...");
-            adhanAudio.play().then(() => {
-                console.log("Adhan riprodotto con successo.");
-            }).catch(error => {
-                console.error("Errore nella riproduzione dell'Adhan:", error);
-            });
         }
 
         // Inizializzazione della mappa della Qibla
