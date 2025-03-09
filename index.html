@@ -4,29 +4,44 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Permissions-Policy" content="notifications=()">
-    <title>Orari Preghiere - Mariano Comense</title>
+    <title>Orari Preghiere</title>
     <link rel="icon" type="image/x-icon" href="jjj.png">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
-    :root {
+
+:root {
             --primary-color: #2A5D67;
             --accent-color: #FFB740;
             --text-dark: #2C3E50;
             --background-gradient: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
             --text-light: #ffffff;
             --background-dark: #1a1a1a;
+            --lailat-text-color: #000000; /* Colore predefinito per il tema chiaro */
         }
 
         body {
             font-family: 'Poppins', sans-serif;
-            background: var(--background-gradient);
+            background: var(--background-gradient), url('C:\visual studio code zone\MAROC-RAM-TIME.jpg');
+            background-size: cover;
+            background-position: center;
             min-height: 100vh;
             margin: 0;
             transition: background 0.3s ease, color 0.3s ease;
-            
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.5);
+            z-index: -1;
         }
 
         body.dark-theme {
@@ -35,6 +50,11 @@
             --text-dark: #ffffff;
             --background-gradient: linear-gradient(135deg, #1a1a1a 0%, #333333 100%);
             --text-light: #ffffff;
+            --lailat-text-color: #ffffff; /* Colore per il tema scuro */
+        }
+
+        body.dark-theme::before {
+            background: rgba(0, 0, 0, 0.5);
         }
 
         header {
@@ -56,6 +76,69 @@
             z-index: 2;
             filter: brightness(0) invert(1);
             transition: filter 0.3s ease;
+        }
+
+        .hero__title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .text-uppercase {
+            text-transform: uppercase;
+        }
+
+        .text-color-white {
+            color: white;
+        }
+
+        .hero__title_animated {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        /* Stile per l'avviso di Lailat al Qadr */
+        .lailat-al-qadr-notice {
+            background: linear-gradient(135deg, #00000000, #00000000);
+            color: var(--lailat-text-color); /* Usa la variabile per il colore del testo */
+            padding: 1.5rem;
+            text-align: center;
+            margin: 0;
+            width: 100%;
+            font-size: 1.2rem;
+            font-weight: 500;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            white-space: nowrap;
+            position: relative;
+        }
+
+        .lailat-al-qadr-notice i {
+            margin-right: 0.5rem;
+        }
+
+        /* Animazione per far scorrere il testo */
+        @keyframes scrollText {
+            0% {
+                transform: translateX(100%);
+            }
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+
+        .lailat-al-qadr-notice span {
+            display: inline-block;
+            padding-left: 100%;
+            animation: scrollText 25s linear infinite; /* Velocità ridotta */
         }
 
         .grid-container {
@@ -344,6 +427,125 @@
         .notification {
             animation: glow 2s infinite;
         }
+
+        /* Animazione flash per il footer */
+        @keyframes flash {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0;
+            }
+        }
+
+        footer p {
+            animation: flash 1s infinite;
+        }
+
+        /* Effetto Glitch */
+        @keyframes glitch {
+            0% {
+                transform: translate(0);
+            }
+            20% {
+                transform: translate(-5px, 5px);
+            }
+            40% {
+                transform: translate(5px, -5px);
+            }
+            60% {
+                transform: translate(-5px, 5px);
+            }
+            80% {
+                transform: translate(5px, -5px);
+            }
+            100% {
+                transform: translate(0);
+            }
+        }
+
+        .glitch-effect {
+            position: relative;
+            animation: glitch 1s infinite;
+        }
+
+        .glitch-effect::before,
+        .glitch-effect::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.8;
+        }
+
+        .glitch-effect::before {
+            color: #ff00ff;
+            z-index: -1;
+            animation: glitch 0.5s infinite;
+        }
+
+        .glitch-effect::after {
+            color: #00ffff;
+            z-index: -2;
+            animation: glitch 0.3s infinite;
+        }
+
+        /* Effetto Glow per il logo */
+        .logo {
+            animation: glow-logo 2s infinite alternate;
+        }
+
+        @keyframes glow-logo {
+            0% {
+                filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.7)) brightness(0) invert(1);
+            }
+            100% {
+                filter: drop-shadow(0 0 20px rgba(255, 255, 255, 1)) brightness(0) invert(1);
+            }
+        }
+
+        /* Effetto Glow per il titolo */
+        .hero__title {
+            animation: glow-title 2s infinite alternate;
+        }
+
+        @keyframes glow-title {
+            0% {
+                text-shadow: 0 0 5px rgba(255, 255, 255, 0.7);
+            }
+            100% {
+                text-shadow: 0 0 20px rgba(255, 255, 255, 1);
+            }
+        }
+
+        /* Effetto Glow per il pulsante di salvataggio */
+        .fas.fa-save {
+            animation: glow 2s infinite alternate;
+        }
+
+        /* Effetto Glow per il contenitore dell'icona del tema */
+        .theme-icon-container {
+            animation: glow 2s infinite alternate;
+        }
+
+        /* Effetto Glow per il color picker */
+        #color-picker {
+            animation: glow 2s infinite alternate;
+        }
+
+        /* Definizione dell'animazione Glow */
+        @keyframes glow {
+            0% {
+                box-shadow: 0 0 5px rgba(16, 0, 247, 0.24);
+            }
+            100% {
+                box-shadow: 0 0 20px rgba(0, 0, 0, 0.418);
+            }
+        }
+
+        /* ... (stili CSS rimangono invariati) ... */
     </style>
 </head>
 <body>
@@ -356,8 +558,8 @@
 
     <header>
         <img src="jjj.png" alt="Logo" class="logo" />
-        <h1>🕋 مواقيت الصلاة</h1>
-        <p>Mariano Comense</p>
+        <h1 class="hero__title text-uppercase text-color-white hero__title_animated glitch-effect" data-text=" مواقيت الصلاة">مواقيت الصلاة</h1>
+        <p></p>
         <span class="scenary-switch" title="Cambia tema">
             <div class="theme-icon-container">
                 <i class="fas fa-moon"></i>
@@ -371,6 +573,13 @@
             <i class="fas fa-save"></i>
         </button>
     </header>
+
+    <!-- Avviso per Lailat al Qadr -->
+    <div class="lailat-al-qadr-notice">
+        <span>
+            <i class="fas fa-star"></i> Notte di Lailat al Qadr: Ricorda di dedicare questa notte alla preghiera e alla riflessione.
+        </span>
+    </div>
 
     <div class="grid-container" id="prayer-container">
         <!-- Le caselle verranno generate dinamicamente -->
@@ -424,7 +633,7 @@
                     }
                 },
                 color: {
-                    value: "#2A5D67" // Colore iniziale delle particelle
+                    value: "#2A5D67"
                 },
                 shape: {
                     type: "circle",
@@ -539,12 +748,12 @@
             const latitude = 45.6975; // Latitudine di Mariano Comense
             const longitude = 9.1833; // Longitudine di Mariano Comense
             const method = 2; // Metodo di calcolo
-            const url = `https://api.aladhan.com/v1/timings?latitude=${latitude}&longitude=${longitude}&method=${method}`;
+            const url = `https://api.aladhan.com/v1/timingsByCity?city=Casablanca&country=Morocco&method=4`;
 
             try {
                 const response = await fetch(url);
                 const data = await response.json();
-                console.log("Risposta API:", data); // Debug: verifica la risposta API
+                console.log("Risposta API:", data);
 
                 if (!data || !data.data || !data.data.timings) {
                     console.error("Formato della risposta API non valido");
@@ -556,7 +765,7 @@
                 // Calcola IMSAK (10 minuti prima di Fajr)
                 const fajrTime = timings.Fajr;
                 const fajrDateTime = new Date(`${new Date().toDateString()} ${fajrTime}`);
-                fajrDateTime.setMinutes(fajrDateTime.getMinutes() - 10); // Sottrai 10 minuti
+                fajrDateTime.setMinutes(fajrDateTime.getMinutes() - 10);
                 const imsakTime = `${fajrDateTime.getHours().toString().padStart(2, '0')}:${fajrDateTime.getMinutes().toString().padStart(2, '0')}`;
 
                 // Mappa i tempi delle preghiere nel formato desiderato
@@ -569,7 +778,7 @@
                     { name: 'Isha', time: timings.Isha, icon: 'fa-stars' }
                 ];
 
-                console.log("Orari delle preghiere:", prayerTimes); // Debug: verifica gli orari estratti
+                console.log("Orari delle preghiere:", prayerTimes);
                 return prayerTimes;
             } catch (error) {
                 console.error("Errore nel recupero degli orari delle preghiere:", error);
@@ -590,7 +799,7 @@
                 const prayerDateTime = new Date(`${now.toDateString()} ${prayerTime}`);
                 let diff = (prayerDateTime - now) / 1000;
 
-                if (diff < 0) diff += 86400; // Aggiungi 24 ore se il tempo è passato
+                if (diff < 0) diff += 86400; // Se il tempo è passato, aggiungi 24 ore
 
                 const hours = Math.floor(diff / 3600);
                 const minutes = Math.floor((diff % 3600) / 60);
@@ -598,17 +807,18 @@
 
                 countdownElement.textContent = `${hours}h ${minutes}m ${seconds}s`;
 
-                // Se il countdown raggiunge lo zero, riproduci l'Adhan (solo per Fajr, Dhuhr, Asr, Maghrib, Isha)
-                if (hours === 0 && minutes === 0 && seconds === 0 && prayerName !== 'Imsak') {
+                // Controlla se il countdown è arrivato a zero
+                if (diff <= 0 && prayerName !== 'Imsak') {
                     playAdhan();
+                    // Resetta il countdown per evitare ripetizioni
+                    countdownElement.textContent = "00h 00m 00s";
                 }
             });
 
-            // Richiama la funzione al prossimo frame
             requestAnimationFrame(updateCountdown);
         }
 
-        // Funzione per generare le caselle delle preghiere (solo una volta)
+        // Funzione per generare le caselle delle preghiere
         async function renderPrayerTimes() {
             const container = document.getElementById('prayer-container');
             container.innerHTML = '';
@@ -639,8 +849,7 @@
                 container.appendChild(card);
             });
 
-            // Avvia l'aggiornamento del countdown
-            requestAnimationFrame(updateCountdown);
+            updateCountdown(); // Avvia il countdown
         }
 
         // Funzione per ottenere il giorno corrente
@@ -658,46 +867,27 @@
         // Funzione per riprodurre l'Adhan
         function playAdhan() {
             const adhanAudio = document.getElementById('adhan-audio');
-            adhanAudio.play().catch(error => {
+            console.log("Riproduzione dell'Adhan...");
+            adhanAudio.play().then(() => {
+                console.log("Adhan riprodotto con successo.");
+            }).catch(error => {
                 console.error("Errore nella riproduzione dell'Adhan:", error);
             });
         }
 
-        // Funzione per richiedere il permesso di notifica
-        function requestNotificationPermission() {
-            if (Notification.permission !== 'granted') {
-                Notification.requestPermission().then(permission => {
-                    if (permission === 'granted') {
-                        console.log('Permesso per le notifiche concesso');
-                    }
-                });
-            }
-        }
-
-        // Funzione per mostrare una notifica
-        function showNotification(title, options) {
-            if (Notification.permission === 'granted') {
-                new Notification(title, options);
-            } else if (Notification.permission !== 'denied') {
-                requestNotificationPermission();
-            }
-        }
-
         // Inizializzazione della mappa della Qibla
-        const map = L.map('qibla-map').setView([45.6975, 9.1833], 13); // Coordinate di Mariano Comense
+        const map = L.map('qibla-map').setView([45.6975, 9.1833], 13);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
 
-        // Aggiungi un marker per la posizione corrente
         const marker = L.marker([45.6975, 9.1833]).addTo(map)
             .bindPopup('Sei qui!')
             .openPopup();
 
-        // Aggiungi una linea per indicare la direzione della Qibla
         const qiblaLine = L.polyline([
-            [45.6975, 9.1833], // Posizione corrente
-            [21.4225, 39.8262] // Coordinate della Kaaba (Mecca)
+            [45.6975, 9.1833],
+            [21.4225, 39.8262]
         ], {
             color: 'red',
             weight: 3
@@ -741,8 +931,23 @@
             const filter = `invert(1) sepia(1) saturate(10000%) hue-rotate(${r + g + b}deg)`;
             logo.style.filter = filter;
 
-            // Cambia il colore delle particelle
             changeParticlesColor(color);
+
+            // Aggiorna il colore di altri elementi
+            const header = document.querySelector('header');
+            header.style.backgroundColor = color;
+
+            const footer = document.querySelector('footer');
+            footer.style.backgroundColor = color;
+
+            const prayerCards = document.querySelectorAll('.prayer-card');
+            prayerCards.forEach(card => {
+                card.style.color = color;
+            });
+
+            if (document.body.classList.contains('dark-theme')) {
+                document.documentElement.style.setProperty('--accent-color', color);
+            }
         });
 
         // Gestione del salvataggio del colore
@@ -760,6 +965,17 @@
                 document.documentElement.style.setProperty('--primary-color', savedColor);
                 colorPicker.value = savedColor;
                 changeParticlesColor(savedColor);
+
+                const header = document.querySelector('header');
+                header.style.backgroundColor = savedColor;
+
+                const footer = document.querySelector('footer');
+                footer.style.backgroundColor = savedColor;
+
+                const prayerCards = document.querySelectorAll('.prayer-card');
+                prayerCards.forEach(card => {
+                    card.style.color = savedColor;
+                });
             }
         });
 
@@ -820,6 +1036,22 @@
         document.querySelectorAll('.prayer-card').forEach(card => {
             makeDraggable(card);
         });
+
+        // Gestione dell'animazione di flash
+        const footerText = document.querySelector('footer p');
+
+        footerText.addEventListener('mouseenter', () => {
+            footerText.style.animationPlayState = 'paused'; // Ferma l'animazione al passaggio del mouse
+        });
+
+        footerText.addEventListener('mouseleave', () => {
+            footerText.style.animationPlayState = 'running'; // Riprendi l'animazione quando il mouse esce
+        });
+
+        // Applica l'effetto glitch al titolo
+        const title = document.querySelector('.hero__title');
+        title.classList.add('glitch-effect');
+        title.setAttribute('data-text', title.textContent);
     </script>
 </body>
 </html>
