@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="it">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,8 +12,7 @@
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <!-- Google AdSense -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3725246978658798"
-     crossorigin="anonymous"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3725246978658798" crossorigin="anonymous"></script>
     <style>
         :root {
             --primary-color: #2A5D67;
@@ -23,10 +23,10 @@
             --background-dark: #1a1a1a;
             --lailat-text-color: #000000; /* Colore predefinito per il tema chiaro */
         }
-        
+
         body {
             font-family: 'Poppins', sans-serif;
-            background: var(--background-gradient), url('C:\visual studio code zone\MAROC-RAM-TIME.jpg');
+            background: var(--background-gradient), url('OIP.jpg');
             background-size: cover;
             background-position: center;
             min-height: 100vh;
@@ -524,20 +524,30 @@
             animation: glow 2s infinite alternate;
         }
 
-        #color-picker {
-            animation: glow 2s infinite alternate;
+        .save-notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--primary-color); /* Usa il colore primario */
+            color: #fff;
+            padding: 15px 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            font-size: 1em;
+            font-weight: 500;
+            opacity: 0;
+            transform: translateX(100%);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            z-index: 1000;
         }
 
-        @keyframes glow {
-            0% {
-                box-shadow: 0 0 5px rgba(16, 0, 247, 0.24);
-            }
-            100% {
-                box-shadow: 0 0 20px rgba(0, 0, 0, 0.418);
-            }
+        .save-notification.show {
+            opacity: 1;
+            transform: translateX(0);
         }
     </style>
 </head>
+
 <body>
     <div id="notification" class="notification">
         🎉 Benvenuto! Nel Sito Di Youssef
@@ -549,6 +559,7 @@
     <header>
         <img src="jjj.png" alt="Logo" class="logo" />
         <h1 class="hero__title text-uppercase text-color-white hero__title_animated glitch-effect" data-text=" مواقيت الصلاة">مواقيت الصلاة</h1>
+        <p id="hijri-date"></p>
         <p></p>
         <span class="scenary-switch" title="Cambia tema">
             <div class="theme-icon-container">
@@ -587,6 +598,8 @@
         <p>© 2025 Orari Preghiere - Design by [Youssef]</p>
         <p id="hijri-date"></p>
     </footer>
+
+    <div id="save-notification" class="save-notification">Colore salvato con successo!</div>
 
     <!-- Audio per il Corano -->
     <audio id="quran-audio">
@@ -873,6 +886,22 @@
             return `${dayName}, ${dayNumber} ${monthName} ${year}`;
         }
 
+        // Funzione per ottenere la data Hijri corrente
+        async function fetchHijriDate() {
+            const url = 'https://api.aladhan.com/v1/gToH';
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                if (data && data.data) {
+                    const hijriDate = data.data.hijri;
+                    const hijriDateString = `${hijriDate.day} ${hijriDate.month.en} ${hijriDate.year}`;
+                    document.getElementById('hijri-date').textContent = `Data Hijri: ${hijriDateString}`;
+                }
+            } catch (error) {
+                console.error("Errore nel recupero della data Hijri:", error);
+            }
+        }
+
         // Inizializzazione della mappa della Qibla
         const map = L.map('qibla-map').setView([45.6975, 9.1833], 13);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -894,6 +923,7 @@
         // Esegui la funzione al caricamento della pagina
         document.addEventListener('DOMContentLoaded', () => {
             renderPrayerTimes();
+            fetchHijriDate();
         });
 
         // Gestione del cambio tema
@@ -950,10 +980,17 @@
 
         // Gestione del salvataggio del colore
         const saveColorButton = document.getElementById('save-color-button');
+        const saveNotification = document.getElementById('save-notification');
+
         saveColorButton.addEventListener('click', () => {
             const selectedColor = colorPicker.value;
             localStorage.setItem('savedColor', selectedColor);
-            alert('Colore salvato con successo!');
+
+            // Mostra la notifica
+            saveNotification.classList.add('show');
+            setTimeout(() => {
+                saveNotification.classList.remove('show');
+            }, 3000); // Nasconde la notifica dopo 3 secondi
         });
 
         // Carica il colore salvato al caricamento della pagina
@@ -993,63 +1030,7 @@
                 playIcon.classList.add('fa-play');
             }
         });
-
-        // Mostra la notifica di benvenuto
-        document.addEventListener('DOMContentLoaded', function () {
-            const notification = document.getElementById('notification');
-            setTimeout(() => {
-                notification.classList.add('show');
-            }, 1000);
-            setTimeout(() => {
-                notification.classList.remove('show');
-            }, 5000);
-        });
-
-        // Funzione per trascinare gli elementi
-        function makeDraggable(element) {
-            let isDragging = false;
-            let offsetX, offsetY;
-
-            element.addEventListener('mousedown', (e) => {
-                isDragging = true;
-                offsetX = e.clientX - element.getBoundingClientRect().left;
-                offsetY = e.clientY - element.getBoundingClientRect().top;
-                element.style.cursor = 'grabbing';
-            });
-
-            document.addEventListener('mousemove', (e) => {
-                if (isDragging) {
-                    element.style.left = `${e.clientX - offsetX}px`;
-                    element.style.top = `${e.clientY - offsetY}px`;
-                }
-            });
-
-            document.addEventListener('mouseup', () => {
-                isDragging = false;
-                element.style.cursor = 'grab';
-            });
-        }
-
-        // Applica la funzione di trascinamento alle carte delle preghiere
-        document.querySelectorAll('.prayer-card').forEach(card => {
-            makeDraggable(card);
-        });
-
-        // Gestione dell'animazione di flash
-        const footerText = document.querySelector('footer p');
-
-        footerText.addEventListener('mouseenter', () => {
-            footerText.style.animationPlayState = 'paused'; // Ferma l'animazione al passaggio del mouse
-        });
-
-        footerText.addEventListener('mouseleave', () => {
-            footerText.style.animationPlayState = 'running'; // Riprendi l'animazione quando il mouse esce
-        });
-
-        // Applica l'effetto glitch al titolo
-        const title = document.querySelector('.hero__title');
-        title.classList.add('glitch-effect');
-        title.setAttribute('data-text', title.textContent);
     </script>
 </body>
+
 </html>
