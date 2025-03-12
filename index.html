@@ -791,44 +791,22 @@
             }
         }
 
-        // Funzione per aggiornare solo il countdown
-        let adhanPlayed = false;
+        // Richiedi il permesso per le notifiche all'avvio della pagina
+        document.addEventListener('DOMContentLoaded', () => {
+            if (Notification.permission !== "granted") {
+                Notification.requestPermission().then(permission => {
+                    if (permission === "granted") {
+                        console.log("Permesso per le notifiche ottenuto.");
+                    }
+                });
+            }
+        });
 
-        function updateCountdown() {
-            const prayerCards = document.querySelectorAll('.prayer-card');
-
-            prayerCards.forEach(card => {
-                const prayerName = card.querySelector('.prayer-name').textContent;
-                const prayerTime = card.querySelector('.prayer-time').textContent;
-                const countdownElement = card.querySelector('.countdown');
-
-                const now = new Date();
-                const prayerDateTime = new Date(`${now.toDateString()} ${prayerTime}`);
-                let diff = (prayerDateTime - now) / 1000;
-
-                if (diff < 0) diff += 86400; // Se il tempo è passato, aggiungi 24 ore
-
-                const hours = Math.floor(diff / 3600);
-                const minutes = Math.floor((diff % 3600) / 60);
-                const seconds = Math.floor(diff % 60);
-
-                countdownElement.textContent = `${hours}h ${minutes}m ${seconds}s`;
-
-                // Controlla se il countdown è arrivato a zero
-                if (diff <= 0 && prayerName !== 'Imsak' && !adhanPlayed) {
-                    playAdhan();
-                    adhanPlayed = true; // Imposta il flag su true per evitare ripetizioni
-                    // Resetta il countdown per evitare ripetizioni
-                    countdownElement.textContent = "00h 00m 00s";
-                }
-
-                // Resetta il flag quando il countdown è positivo
-                if (diff > 0) {
-                    adhanPlayed = false;
-                }
-            });
-
-            requestAnimationFrame(updateCountdown);
+        // Funzione per mostrare una notifica
+        function showNotification(title, options) {
+            if (Notification.permission === "granted") {
+                new Notification(title, options);
+            }
         }
 
         // Funzione per riprodurre l'Adhan
@@ -1032,6 +1010,53 @@
                 playIcon.classList.add('fa-play');
             }
         });
+
+        // Modifica la funzione updateCountdown per includere le notifiche
+        let adhanPlayed = false;
+
+        function updateCountdown() {
+            const prayerCards = document.querySelectorAll('.prayer-card');
+
+            prayerCards.forEach(card => {
+                const prayerName = card.querySelector('.prayer-name').textContent;
+                const prayerTime = card.querySelector('.prayer-time').textContent;
+                const countdownElement = card.querySelector('.countdown');
+
+                const now = new Date();
+                const prayerDateTime = new Date(`${now.toDateString()} ${prayerTime}`);
+                let diff = (prayerDateTime - now) / 1000;
+
+                if (diff < 0) diff += 86400; // Se il tempo è passato, aggiungi 24 ore
+
+                const hours = Math.floor(diff / 3600);
+                const minutes = Math.floor((diff % 3600) / 60);
+                const seconds = Math.floor(diff % 60);
+
+                countdownElement.textContent = `${hours}h ${minutes}m ${seconds}s`;
+
+                // Controlla se il countdown è arrivato a zero
+                if (diff <= 0 && prayerName !== 'Imsak' && !adhanPlayed) {
+                    playAdhan();
+                    adhanPlayed = true; // Imposta il flag su true per evitare ripetizioni
+
+                    // Mostra una notifica
+                    showNotification('È ora della preghiera!', {
+                        body: `È il momento della preghiera di ${prayerName}.`,
+                        icon: 'path/to/icon.png' // Sostituisci con il percorso dell'icona
+                    });
+
+                    // Resetta il countdown per evitare ripetizioni
+                    countdownElement.textContent = "00h 00m 00s";
+                }
+
+                // Resetta il flag quando il countdown è positivo
+                if (diff > 0) {
+                    adhanPlayed = false;
+                }
+            });
+
+            requestAnimationFrame(updateCountdown);
+        }
     </script>
 </body>
 
